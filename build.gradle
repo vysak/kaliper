@@ -1,0 +1,101 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+sourceCompatibility = 1.7
+version = '1.0'
+String springCoreVersion = '4.1.6.RELEASE'
+String springSecurityVersion = '4.0.0.RELEASE'
+String jacksonVersion = '2.5.2'
+String hibernateVersion = '4.3.9.Final'
+String hibernateValidateVersion =  '5.1.3.Final'
+String hibernateAnnotationVersion = '3.5.6-Final'
+String slf4jVersion = '1.7.12'
+String aspectjVersion = '1.7.0'
+String googleGuavaVersion = '18.0'
+String mysqlConnectorVersion = '5.1.35'
+String javaServletApiVersion = '2.5'
+String thymeLeafeVersion = '2.1.4.RELEASE'
+String thymeLeafeExtrasVersion = '2.1.2.RELEASE'
+String thymeLeafeDatatablesVersion = '0.10.1'
+
+String tomcatDir = "/opt/tomcat"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url "http://central.maven.org/maven2"
+    }
+}
+
+//http://central.maven.org/maven2/javax/servlet/servlet-api/3.1.0/servlet-api-3.1.0.jar
+//http://central.maven.org/maven2/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar
+
+dependencies {
+	//Common collections and logback library
+    compile 'commons-collections:commons-collections:3.2'
+    compile 'ch.qos.logback:logback-classic:1.1.2'
+    compile 'commons-validator:commons-validator:1.4.0'
+	compile 'org.slf4j:slf4j-api:' + slf4jVersion
+    compile 'org.slf4j:jcl-over-slf4j:' + slf4jVersion
+    
+    //Spring framework
+	compile 'org.springframework:spring-webmvc:' + springCoreVersion
+	compile 'org.springframework:spring-context:' +springCoreVersion
+	compile 'org.springframework:spring-web:' + springCoreVersion
+	compile 'org.springframework:spring-tx:' + springCoreVersion
+	compile 'org.springframework:spring-orm:' + springCoreVersion
+	compile 'org.springframework:spring-aop:' + springCoreVersion
+	compile 'org.springframework:spring-aspects:' + springCoreVersion
+	
+	//Spring security
+	compile 'org.springframework.security.oauth:spring-security-oauth2:2.0.7.RELEASE'
+	compile 'org.springframework.security:spring-security-core:' + springSecurityVersion
+	compile 'org.springframework.security:spring-security-config:' + springSecurityVersion
+	compile 'org.springframework.security:spring-security-web:' + springSecurityVersion
+	
+	//Hibernate
+	compile 'org.hibernate:hibernate-core:' + hibernateVersion
+	compile 'org.hibernate:hibernate-entitymanager:' + hibernateVersion
+	compile 'org.hibernate:hibernate-validator:' + hibernateValidateVersion
+	compile 'org.hibernate:hibernate-annotations:' + hibernateAnnotationVersion
+	
+	//Jackson
+	compile 'com.fasterxml.jackson.core:jackson-databind:' + jacksonVersion
+	compile 'com.fasterxml.jackson.core:jackson-annotations:' +jacksonVersion
+	compile 'com.fasterxml.jackson.core:jackson-core:' + jacksonVersion
+	compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:' + jacksonVersion
+	
+	//Google Guava
+	compile 'com.google.guava:guava:' + googleGuavaVersion
+	
+	//Apache DBCP
+	compile 'commons-dbcp:commons-dbcp:1.4'
+	
+	//Mysql
+	compile 'mysql:mysql-connector-java:' + mysqlConnectorVersion
+	
+	compile 'jstl:jstl:1.2'
+	
+	//include in compile only, exclude in the war
+	compile 'javax.servlet:servlet-api:' + javaServletApiVersion
+	compile 'org.aspectj:aspectjrt:1.8.5'
+    testCompile 'junit:junit:4.+'
+    
+    compile 'org.thymeleaf:thymeleaf:' + thymeLeafeVersion
+    //compile 'org.thymeleaf:thymeleaf-spring4' + thymeLeafeVersion
+    compile 'org.thymeleaf:thymeleaf-spring4:2.1.2.RELEASE'
+    
+    compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:' + thymeLeafeExtrasVersion
+    compile 'com.github.dandelion:datatables-thymeleaf:' + thymeLeafeDatatablesVersion
+}
+
+
+war{
+	from 'src/main/pages'
+    webInf { 
+    	from 'src/main/webapp/WEB-INF/' 
+   	 	//from './' include 'redwine.properties'
+   	 }
+}
